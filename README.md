@@ -1,8 +1,10 @@
 # D4G
-#MEMBRES DE L'EQUIPE
+
+# MEMBRES DE L'EQUIPE
 - Sedra SHALHAWI
 - Winnie TCHAIWOU
 - Merlycia NTSOUORI
 - Anas Tagui
-#PROMO
+  
+# PROMO
   IR4-2027
