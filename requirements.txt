@@ -1,4 +1,27 @@
-flask
-transformers
-torch-cpu
-codecarbon
+# requirements.txt 
+
+# API web
+flask>=3.0,<4.0
+
+# Noyau ML (CPU)
+torch>=2.3,<3.0
+numpy>=1.26,<3.0
+
+# Hugging Face
+transformers>=4.44,<5.0
+tokenizers>=0.19,<0.21
+safetensors>=0.4,<0.5
+sentencepiece>=0.2,<0.3
+sacrebleu>=2.4,<2.5
+
+
+# Mesures système & énergie (obligatoires)
+psutil>=5.9,<6.0
+codecarbon>=2.0,<4.0
+
+# Quantification avancée (facultative mais installée automatiquement sur Linux/macOS)
+torchao>=0.4 ; sys_platform != "win32"
+
+# - Serveur de prod léger (choix automatique par OS)
+gunicorn>=21.2,<22.0 ; sys_platform != "win32"
+waitress>=3.0,<4.0 ; sys_platform == "win32"

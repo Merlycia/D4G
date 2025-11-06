@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Résumé éco-conçu — API & Métriques</title>
+
+  <!-- Tailwind via CDN (léger, pas de CSS embarqué) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="Application éco-conçue de résumé 10–15 mots avec métriques de performance et énergie." />
+
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body class="h-full bg-slate-950 text-slate-100 antialiased">
+
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 px-3 py-2 rounded-lg bg-[#1f6feb] text-white">Aller au contenu</a>
+
+  <header class="border-b border-slate-800">
+    <div class="mx-auto max-w-4xl px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl md:text-2xl font-semibold tracking-tight">Résumé éco-conçu</h1>
+      <p class="text-sm text-slate-400">10–15 mots • métriques énergie & perf</p>
+    </div>
+  </header>
+
+  <main id="main" class="mx-auto max-w-4xl px-4 py-6 space-y-6">
+    <!-- Carte de saisie -->
+    <section class="rounded-2xl border border-slate-800 p-5 shadow-sm bg-slate-900/60 backdrop-blur">
+      <form id="form" class="space-y-4" aria-describedby="form-help">
+        <div class="flex flex-col gap-2">
+          <label for="text" class="text-sm font-medium">Texte à résumer <span class="sr-only">(4000 caractères max)</span></label>
+          <textarea id="text" name="text" maxlength="4000" required
+            class="min-h-[9rem] w-full rounded-xl border border-slate-700 bg-slate-900 text-slate-100 px-3 py-2 text-base placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#1f6feb] focus:border-[#1f6feb]"
+            placeholder="Colle ici ton texte en FR ou EN…"></textarea>
+          <p id="form-help" class="text-xs text-slate-500">Le résumé ciblera 10 à 15 mots.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <!-- Sélecteur de langue -->
+          <fieldset class="flex items-center gap-2" aria-label="Langue">
+            <legend class="text-sm font-medium mr-2">Langue</legend>
+            <div role="radiogroup" aria-labelledby="lang-label" class="inline-flex rounded-xl border border-slate-700 overflow-hidden">
+              <input id="lang-en" name="lang" type="radio" value="en" class="peer/lang-en sr-only" checked />
+              <label for="lang-en"
+                     class="select-none px-3 py-1.5 text-sm cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#1f6feb] peer-checked/lang-en:bg-[#1f6feb] peer-checked/lang-en:text-white">
+                EN
+              </label>
+              <input id="lang-fr" name="lang" type="radio" value="fr" class="peer/lang-fr sr-only" />
+              <label for="lang-fr"
+                     class="select-none px-3 py-1.5 text-sm cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#1f6feb] peer-checked/lang-fr:bg-[#1f6feb] peer-checked/lang-fr:text-white border-l border-slate-700">
+                FR
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Mode optimisé -->
+          <label class="inline-flex items-center gap-2 text-sm">
+            <input id="optimized" name="optimized" type="checkbox"
+                   class="h-4 w-4 rounded border-slate-700 text-[#1f6feb] focus:ring-[#1f6feb]" />
+            <span>Mode optimisé </span>
+          </label>
+
+          <div class="ml-auto flex items-center gap-2">
+            <button id="runBtn" type="submit"
+              class="inline-flex items-center gap-2 rounded-xl bg-[#1f6feb] text-white px-4 py-2 text-sm font-medium shadow hover:bg-[#195bcc] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f6feb] disabled:opacity-60">
+              <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+              Lancer le résumé
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Résultat -->
+    <section id="resultCard" class="rounded-2xl border border-slate-800 p-5 shadow-sm bg-slate-900/60 backdrop-blur hidden">
+      <div class="flex items-start justify-between gap-4">
+        <h2 class="text-lg font-semibold">Résultat</h2>
+        <span id="langTag" class="text-xs rounded-full px-2 py-1 border border-slate-700 text-slate-300">—</span>
+      </div>
+
+      <p class="mt-3 text-base">
+        <span class="font-semibold">Résumé :</span>
+        <span id="summary" class="ml-1">—</span>
+      </p>
+
+      <div class="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3" role="list">
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">Énergie</div>
+          <div class="text-base font-medium"><span id="energy">—</span> <span class="text-xs">Wh</span></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">CO₂</div>
+          <div class="text-base font-medium"><span id="co2">—</span> <span class="text-xs">g</span></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">Latence</div>
+          <div class="text-base font-medium"><span id="latency">—</span> <span class="text-xs">ms</span></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">Mémoire</div>
+          <div class="text-base font-medium"><span id="memory">—</span> <span class="text-xs">MB</span></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">Débit</div>
+          <div class="text-base font-medium"><span id="throughput">—</span> <span class="text-xs">tok/s</span></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">ppl (proxy)</div>
+          <div id="ppl" class="text-base font-medium">—</div>
+        </div>
+        <div class="rounded-xl border border-slate-800 p-3" role="listitem">
+          <div class="text-xs text-slate-500">Modèle</div>
+          <div id="modelName" class="text-sm font-medium break-all">—</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-8 py-6 border-t border-slate-800">
+    <div class="mx-auto max-w-4xl px-4 text-sm text-slate-500 flex items-center justify-between">
+      <span> © 2025 — ESAIP | D4G</span>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const $ = (id) => document.getElementById(id);
+      const form = $("form");
+      const runBtn = $("runBtn");
+      const resultCard = $("resultCard");
+
+      function fmt(v, d=2){
+        if(v === null || v === undefined) return "N/A";
+        const n = Number(v);
+        return Number.isFinite(n) ? n.toFixed(d) : "N/A";
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const text = $("text").value.trim();
+        const optimized = $("optimized").checked;
+        const lang = document.querySelector('input[name=\"lang\"]:checked')?.value || "en";
+
+        if (!text) { alert("Merci de saisir un texte."); $("text").focus(); return; }
+        if (text.length > 4000 ) { alert("Merci de saisir un texte <= 4000 caractères."); $("text").focus(); return; }
+
+        runBtn.disabled = true; runBtn.textContent = "Génération…";
+
+        try {
+          const res = await fetch("/summarize", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text, optimized, lang })
+          });
+          const data = await res.json();
+          if (!res.ok) { alert(data.error || "Erreur serveur"); return; }
+
+          resultCard.classList.remove("hidden");
+          $("summary").textContent    = data.summary ?? "—";
+          $("energy").textContent     = fmt(data.energy_wh, 4);
+          $("co2").textContent        = fmt(data.co2_g, 4);
+          $("latency").textContent    = fmt(data.latency_ms, 0);
+          $("memory").textContent     = fmt(data.memory_mb, 2);
+          $("throughput").textContent = fmt(data.throughput_tok_s, 2);
+          $("ppl").textContent        = fmt(data.ppl, 2);
+          $("modelName").textContent  = data.model_name ?? "—";
+          $("langTag").textContent    = (data.lang_used || lang || "en").toUpperCase();
+        } catch (e) {
+          alert("Échec de la requête : " + (e?.message || e));
+        } finally {
+          runBtn.disabled = false; runBtn.textContent = "Lancer le résumé";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
