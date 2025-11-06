@@ -5,21 +5,21 @@ Interface web minimaliste et **accessible** (Tailwind), permettant de choisir la
 
 ---
 
-### 1. Prérequis
+## 🧩 1) Prérequis
 
-- Python 3.10 ou supérieur  
-- Connexion Internet (pour le téléchargement initial du modèle Hugging Face)  
-- CPU uniquement (aucune carte graphique requise)  
-- Configuration recommandée : 2 à 4 vCPU, minimum 2 Go de RAM
+- **Python 3.10+**
+- **Connexion Internet** (téléchargement automatique du modèle Hugging Face au premier run)
+- **CPU uniquement** (pas de GPU requis)
+- Recommandé : 2–4 vCPU, ≥ 2 Go RAM
 
 ---
 
-### 2. Installation
+## ⚙️ 2) Installation
 
-#### a) Création de l’environnement virtuel
+### a) Environnement virtuel
 
-**Linux / macOS**
 ```bash
+# Linux / macOS
 python -m venv .venv
 source .venv/bin/activate
 
@@ -48,7 +48,7 @@ pip install torchao --extra-index-url https://download.pytorch.org/whl/cpu
 
 ---
 
-## 3) Arborescence
+## 🏗️ 3) Arborescence
 
 ```
 project/
@@ -60,7 +60,7 @@ project/
 
 ---
 
-## 4) Variables d’environnement (optionnelles)
+## 🔧 4) Variables d’environnement (optionnelles)
 
 | Variable            | Rôle                                      | Défaut                            |
 |---------------------|-------------------------------------------|-----------------------------------|
@@ -83,7 +83,7 @@ export PRELOAD_OPTIMIZED=1
 
 ---
 
-## 5) Lancer en développement
+## 🚀 5) Lancer en développement
 
 ```bash
 python app.py
@@ -116,16 +116,16 @@ Réponse type (les champs correspondent exactement au frontend) :
 
 ---
 
-## 6) Lancer en production
+## 🌐 6) Lancer en production
 
-###  A. Linux / macOS — **Gunicorn**
+### 🐧 A. Linux / macOS — **Gunicorn**
 
 ```bash
 pip install gunicorn
 gunicorn "app:app" --bind 0.0.0.0:8000 --workers 1 --threads 2 --timeout 120 --preload
 ```
 
-### B. Windows — **Waitress**
+### 🪟 B. Windows — **Waitress**
 
 ```powershell
 pip install waitress
@@ -134,7 +134,7 @@ waitress-serve --listen=0.0.0.0:8000 app:app
 
 ---
 
-## 7) Endpoints
+## 🧭 7) Endpoints
 
 | Endpoint     | Méthode | Description                                   |
 |--------------|---------|-----------------------------------------------|
@@ -154,7 +154,7 @@ waitress-serve --listen=0.0.0.0:8000 app:app
 
 ---
 
-## 8) Détails techniques
+## ⚡ 8) Détails techniques
 
 - **Baseline** : modèle Hugging Face tel quel.  
 - **Optimisé (CPU)** : pruning léger + factorisation **SVD low‑rank** sur grosses `Linear` + **INT8 dynamique** (TorchAO si dispo, sinon `torch.ao.quantization`).  
@@ -167,7 +167,7 @@ waitress-serve --listen=0.0.0.0:8000 app:app
 
 ---
 
-## 9) Dépannage rapide
+## 🛠️ 9) Dépannage rapide
 
 - `ModuleNotFoundError: transformers / torch` → exécuter `pip install -r requirements.txt` (ou voir Option 2 ci‑dessus).  
 - CodeCarbon indisponible → l’API renverra énergie/CO₂ à `0`/`null` sans planter.  
@@ -175,8 +175,6 @@ waitress-serve --listen=0.0.0.0:8000 app:app
 
 ---
 
-## Licence
+## 📄 Licence
 
 Projet éducatif — usage libre pour expérimentations (ajoute ta licence si besoin).
-
-
