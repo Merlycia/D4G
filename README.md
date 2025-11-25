@@ -177,4 +177,4 @@ waitress-serve --listen=0.0.0.0:8000 app:app
 
 ## 📄 Licence
 
-Projet éducatif — usage libre pour expérimentations (ajoute ta licence si besoin).
+Projet éducatif — usage libre pour expérimentations.
