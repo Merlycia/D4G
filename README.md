@@ -1,4 +1,4 @@
-# Résumé éco-conçu (FR/EN) — API Flask
+# Résumé éco-conçu (FR/EN)  API Flask
 
 Application Flask de **résumé de texte** (10–15 mots) utilisant **Transformers** (Hugging Face) et **PyTorch CPU**, avec **métriques de performance et d’énergie** (latence, mémoire, CO₂, Wh).
 Interface web minimaliste et **accessible** (Tailwind), permettant de choisir la **langue** (FR/EN) et le **mode optimisé** (pruning + low‑rank + quantif INT8).
